@@ -1,42 +1,60 @@
 import pygame
-# import time
+import time
 from pygame.locals import * # import KEYDOWN pygame.event
 
+
+SIZE = 29 # block size
+
 class Snake:
-    def __init__(self, parent_screen):
+    def __init__(self, parent_screen, length): # start will begin here 
+        self.length = length
          #  # load the image
         self.parent_screen = parent_screen
         self.block = pygame.image.load("blueB.png").convert()
-        self.x = 100 # give the block initial location in the screen
-        self.y = 100
+        self.x = [SIZE] * length # giving array of block with size
+        self.y = [SIZE] * length
+        self.direction = 'right'
 
     def draw(self):
         self.parent_screen.fill((92,25,84)) # add background to white color  // call this function, will update the screen to remove all blocks 
-        self.parent_screen.blit(self.block,(self.x,self.y)) # draw block
+        for i in range(self.length):
+            self.parent_screen.blit(self.block,(self.x[i],self.y[i])) # draw block
+
         pygame.display.flip() # this function is to update the function above otherwise it wont work can also use with .update
 
     def move_left(self):
-        self.x -= 10
-        self.draw()
+        self.direction = 'left'
 
     def move_right(self):
-        self.x += 10
-        self.draw()
+        self.direction = 'right'
 
     def move_up(self):
-        self.y -= 10
-        self.draw()
-        
+        self.direction = 'up'
+
     def move_down(self):
-        self.y += 10
+        self.direction = 'down'
+
+    def walk(self): # snake walk on it own
+        for i in range (self.length - 1, 0,-1):
+            self.x[i] = self.x [i-1]
+            self.y[i] = self.y [i-1]
+        
+        if self.direction == 'left':
+            self.x[0] -= SIZE
+        if self.direction == 'right':
+            self.x[0] += SIZE
+        if self.direction == 'up':
+            self.y[0] -= SIZE
+        if self.direction == 'down':
+            self.y[0] += SIZE
         self.draw()
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.surface = pygame.display.set_mode((1000,500)) #window size  # initilize a window or screen for display
+        self.surface = pygame.display.set_mode((1000,800)) #window size  # initilize a window or screen for display
         self.surface.fill((92,25,84)) # add background to white color  
-        self.snake = Snake(self.surface) # window
+        self.snake = Snake(self.surface,6) # window
         self.snake.draw() # draw the snake
 
     def run(self):
@@ -60,11 +78,14 @@ class Game:
                     if event.key == K_RIGHT:
                         self.snake.move_right()
                       
-
                 elif event.type == QUIT: # quit when click on X
                     running = False
+            
+            self.snake.walk() # snake walk on its own without using any key
+            time.sleep(0.3)
 
-    # draw blocks
+
+    
 
 
 if __name__ == "__main__":
