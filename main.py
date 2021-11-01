@@ -11,19 +11,22 @@ class Snake:
         self.y = 100
 
     def draw(self):
-        self.surface.fill((92,25,84)) # add background to white color  // call this function, will update the screen to remove all blocks 
+        self.parent_screen.fill((92,25,84)) # add background to white color  // call this function, will update the screen to remove all blocks 
         self.parent_screen.blit(self.block,(self.x,self.y)) # draw block
         pygame.display.flip() # this function is to update the function above otherwise it wont work can also use with .update
 
     def move_left(self):
         self.x -= 10
         self.draw()
+
     def move_right(self):
         self.x += 10
         self.draw()
+
     def move_up(self):
         self.y -= 10
         self.draw()
+        
     def move_down(self):
         self.y += 10
         self.draw()
@@ -46,19 +49,17 @@ class Game:
                     if event.key == K_ESCAPE:  # this is for when you press escape key, this will close the window
                         running = False 
                     if event.key == K_UP:
-                        self.snake.move_UP()
-                        block_y -= 10
-                        draw_block()
+                        self.snake.move_up()
+                  
                     if event.key == K_DOWN:
-                        self.snake.move_DOWN()
-                        block_y += 10
-                        draw_block()
+                        self.snake.move_down()
+                       
                     if event.key == K_LEFT:
                         self.snake.move_left()
                      
                     if event.key == K_RIGHT:
                         self.snake.move_right()
-                        draw_block()
+                      
 
                 elif event.type == QUIT: # quit when click on X
                     running = False
@@ -73,32 +74,6 @@ if __name__ == "__main__":
 
 
 
-
-    # time.sleep(5) #window appear for 5 seconds
-    # instead of time let stop the game when click on the escape.
-    running = True
-    while running:
-        for event in pygame.event.get():
-            if event.type == KEYDOWN:
-                if event.key == K_ESCAPE:  # this is for when you press escape key, this will close the window
-                    running = False 
-                if event.key == K_UP:
-                    block_y -= 10
-                    draw_block()
-                if event.key == K_DOWN:
-                    block_y += 10
-                    draw_block()
-                if event.key == K_LEFT:
-                    block_x -= 10
-                    draw_block()
-                if event.key == K_RIGHT:
-                    block_x += 10
-                    draw_block()
-
-            elif event.type == QUIT: # quit when click on X
-                running = False
-
-    # draw blocks
 
 
 
