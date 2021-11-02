@@ -72,7 +72,7 @@ class Snake:
         self.draw()
 
 class Game:
-    
+
     def __init__(self):
         pygame.init()
         pygame.display.set_caption("Eating Food Game")
@@ -91,6 +91,11 @@ class Game:
             if y1 >= y2 and y1 < y2 + SIZE:
                 return True
         return False    
+
+    def wallCollision(self, x1,y1,x2,y2):
+        if x1 < 0 or x2 > 600 or y2 > 800 or y1 > 0:
+            return
+
     
     def mySound(self, sound):
         sound = pygame.mixer.Sound(f"{sound}.mp3") # import sound when eat a fruit
@@ -124,8 +129,13 @@ class Game:
                 self.mySound("GameOverSound") # name of the mp3 file
                 self.snake.increase_length()
                 raise "Game over"
-
                 exit(0)
+            if self.wallCollision(self.snake.x[0],self.snake.y[0], self.snake.x[i], self.snake.y[i]): 
+                self.mySound("GameOverSound") # name of the mp3 file
+                self.snake.increase_length()
+                raise "Game over"
+                exit(0)
+
     def score(self):
         myText = pygame.font.SysFont('arial',25)
         myScore = myText.render(f"Point: {self.snake.length}", True, (37, 36, 35))
