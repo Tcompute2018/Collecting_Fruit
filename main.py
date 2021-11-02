@@ -93,8 +93,8 @@ class Game:
         return False    
 
     def wallCollision(self, x1,y1,x2,y2):
-        if x1 < 0 or x2 > 600 or y2 > 800 or y1 > 0:
-            return
+        if x1 < 0 or x1 > 800 or y1 > 600 or y1 < 0:
+            return True
 
     
     def mySound(self, sound):
@@ -119,6 +119,7 @@ class Game:
 
         # when snake hit the food
         if self.colision(self.snake.x[0],self.snake.y[0], self.food.x, self.food.y): # there is a collision based on the initial contact
+
             self.mySound("eatSound") # name of the mp3 file
             self.snake.increase_length()
             self.food.location()
@@ -185,6 +186,7 @@ class Game:
                       
                 elif event.type == QUIT: # quit when click on X
                     running = False
+                    
             try:
                 if not stop:
                     self.play() # play the game
@@ -194,7 +196,7 @@ class Game:
                 self.reset()
 
 
-            time.sleep(0.3)
+            time.sleep(0.2)
 
 
 if __name__ == "__main__":
