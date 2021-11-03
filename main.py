@@ -8,8 +8,10 @@ SIZE = 29 # block size
 Screen_Color = (92,25,84)
 class food:
     def __init__(self, parent_screen):
-
+        self.ranImage = random.randint(0,3)       
+      
         self.image = pygame.image.load("food.jpg").convert()
+      
         self.parent_screen = parent_screen
         self.x = SIZE * 5
         self.y = SIZE * 5
@@ -19,6 +21,7 @@ class food:
         pygame.display.flip()
 
     def location(self):
+
         self.x = random.randint(0,26) * SIZE
         self.y = random.randint(0,13) * SIZE # get random location for food 800 / 40 for x and 400 / 40 for y
 
@@ -81,7 +84,7 @@ class Game:
         self.backGroundMusic()
         self.surface = pygame.display.set_mode((800,600)) #window size  # initilize a window or screen for display
         self.surface.fill((92,25,84)) # add background to white color  
-        self.snake = Snake(self.surface,8) # snake size will equal to one
+        self.snake = Snake(self.surface,2) # snake size will equal to one
         self.snake.draw() # draw the snake
         self.food = food(self.surface)
         self.food.draw()
@@ -125,7 +128,7 @@ class Game:
             self.food.location()
 
         # when snake hit itself
-        for i in range(3, self.snake.length): # start with 3 because the head will never hit the 3 point
+        for i in range(1, self.snake.length): # start with 1 because the head will never hit the 1 point
             if self.colision(self.snake.x[0],self.snake.y[0], self.snake.x[i], self.snake.y[i]):
                 self.mySound("GameOverSound") # name of the mp3 file
                 self.snake.increase_length()
@@ -139,21 +142,22 @@ class Game:
 
     def score(self):
         myText = pygame.font.SysFont('arial',25)
-        myScore = myText.render(f"Point: {self.snake.length}", True, (37, 36, 35))
+        
+        myScore = myText.render(f"Point: {self.snake.length - 2}", True, (37, 36, 35))
         self.surface.blit(myScore,(700,10))
 
     def gameOver(self):
         self.backGround()
         myText = pygame.font.SysFont('arial',25)
-        GameScore = myText.render(f"Game Over! Your final Score: {self.snake.length}", True, (37, 36, 35) )
+        GameScore = myText.render(f"Game Over! Your final Score: {self.snake.length - 3}", True, (37, 36, 35) )
         self.surface.blit(GameScore, (300,200))
-        ConMessage = myText.render(f"Enter if want to play again", True, (37, 36, 35) )
+        ConMessage = myText.render(f"Press Enter if want to play again", True, (37, 36, 35) )
         self.surface.blit(ConMessage, (300,250))
         pygame.display.flip()
         pygame.mixer.music.pause()
 
     def reset(self):
-        self.snake = Snake(self.surface,1) # snake size will equal to one
+        self.snake = Snake(self.surface,2) # snake size will have two blocks
         self.food = food(self.surface)
 
     def run(self):
@@ -170,7 +174,6 @@ class Game:
                     if event.key == K_RETURN:
                         pygame.mixer.music.unpause()
                         stop = False   
-
 
                     if event.key == K_UP:
                         self.snake.move_up()
@@ -194,7 +197,6 @@ class Game:
                 self.gameOver()
                 stop = True
                 self.reset()
-
 
             time.sleep(0.2)
 
