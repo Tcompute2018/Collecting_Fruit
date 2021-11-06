@@ -10,6 +10,7 @@ class food:
     def __init__(self, parent_screen):
         self.ranImage = random.randint(0,3)       
       
+      
         self.image = pygame.image.load("food.jpg").convert()
       
         self.parent_screen = parent_screen
