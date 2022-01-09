@@ -5,6 +5,8 @@ import random
 
 
 
+
+
 SIZE = 29 # block size
 
 Screen_Color = (92,25,84)
